@@ -1,11 +1,16 @@
 package tw.ray;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.PixelFormat;
+
+import tw.ray.util.ShaderUtils;
 
 public class Main implements Runnable {
 
@@ -26,11 +31,11 @@ public class Main implements Runnable {
         System.out.println(String.format("OpenGL %s", version));
         
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-//      int shader = ShaderUtils.load("shaders/shader.vert", "shaders/shader.frag");
     }
     
     public void render() {
         glClear(GL_COLOR_BUFFER_BIT);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
     
     public void run() {
@@ -51,7 +56,12 @@ public class Main implements Runnable {
         
         init();
         
+        int vao = glGenVertexArrays();
+        glBindVertexArray(vao);
         
+        int shader = ShaderUtils.load("shaders/shader.vert", "shaders/shader.frag");
+        glUseProgram(shader);
+
         while (running) {
             render();
             Display.update();
