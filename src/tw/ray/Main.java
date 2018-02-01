@@ -7,6 +7,8 @@ import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.PixelFormat;
 
+import tw.ray.util.ShaderUtils;
+
 public class Main implements Runnable {
 
     private int width = 1280;
@@ -26,8 +28,7 @@ public class Main implements Runnable {
         System.out.println(String.format("OpenGL %s", version));
         
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        
-        
+//      int shader = ShaderUtils.load("shaders/shader.vert", "shaders/shader.frag");
     }
     
     public void render() {
@@ -49,7 +50,6 @@ public class Main implements Runnable {
         } catch (LWJGLException e) {
             e.printStackTrace();
         }
-        
         
         init();
         
