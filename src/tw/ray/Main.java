@@ -7,8 +7,6 @@ import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.PixelFormat;
 
-import tw.ray.util.ShaderUtils;
-
 public class Main implements Runnable {
 
     private int width = 1280;
