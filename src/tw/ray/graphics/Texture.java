@@ -54,13 +54,21 @@ public class Texture {
         int tex = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, tex);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);  // use GL_NEAREST to keep bird on nice and sharp
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);  // scale up and scale down the image
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, BufferUtils.createIntBuffer(data));
         glBindTexture(GL_TEXTURE_2D, 0);
         
         return tex;
     }
 
+    public void bind() {
+        glBindTexture(GL_TEXTURE_2D, texture);
+    }
+    
+    public void unbind() {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    
     public int getWidth() {
         return width;
     }
