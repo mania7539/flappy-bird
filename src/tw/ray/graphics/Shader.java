@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL20.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import tw.ray.math.Matrix4f;
 import tw.ray.math.Vector3f;
 import tw.ray.util.ShaderUtils;
 
@@ -38,8 +39,20 @@ public class Shader {
         glUniform3f(getUniform(name), vector.x, vector.y, vector.z);
     }
 
+    public void setUniform2f(String name, float f1, float f2) {
+        glUniform2f(getUniform(name), f1, f2);
+    }
+
+    public void setUniform1f(String name, float f1) {
+        glUniform1f(getUniform(name), f1);
+    }
+    
     public void setUniform1i(String name, int i1) {
         glUniform1i(getUniform(name), i1);
+    }
+    
+    public void setUniformMat4f(String name, Matrix4f matrix) {
+        glUniformMatrix4fv(getUniform(name), false, matrix.toFloatBuffer());
     }
 
     public void enable() {
