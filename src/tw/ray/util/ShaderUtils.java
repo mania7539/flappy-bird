@@ -27,16 +27,22 @@ public class ShaderUtils {
         if (glGetShaderi(vertID, GL_COMPILE_STATUS) == GL_FALSE) {
             System.err.println("Failed to compile vertex shader!");
             System.err.println(glGetShaderInfoLog(vertID, 2048));   // 2048 characters, should be enough
+            return -1;
         }
+        
         if (glGetShaderi(fragID, GL_COMPILE_STATUS) == GL_FALSE) {
             System.err.println("Failed to compile fragment shader!");
             System.err.println(glGetShaderInfoLog(fragID, 2048));
+            return -1;
         }
         
         glAttachShader(program, vertID);
         glAttachShader(program, fragID);
         glLinkProgram(program);
         glValidateProgram(program);
+        
+        glDeleteShader(vertID);
+        glDeleteShader(fragID);
         
         return program;
     }
