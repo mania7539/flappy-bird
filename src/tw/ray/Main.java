@@ -9,6 +9,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import tw.ray.graphics.Shader;
+import tw.ray.input.Input;
 import tw.ray.math.Vector3f;
 
 public class Main implements Runnable {
@@ -31,16 +32,21 @@ public class Main implements Runnable {
         System.out.println(String.format("OpenGL %s", version));
 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
+        glEnable(GL_DEPTH_TEST);
+        
     }
 
     private void update() {
         glfwPollEvents();   // deal with key events
+        
+        if (Input.keys[GLFW_KEY_SPACE]) {
+            System.out.println("FLAP!");
+        }
     }
 
     private void render() {
         glfwSwapBuffers(window);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
@@ -59,8 +65,9 @@ public class Main implements Runnable {
         glfwSetWindowPos(window, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
         glfwMakeContextCurrent(window);
         glfwShowWindow(window);
+        glfwSetKeyCallback(window, new Input());
         GL.createCapabilities();
-        
+       
         init();
 
         int vao = glGenVertexArrays();

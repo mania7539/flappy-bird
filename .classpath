@@ -2,8 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
-	<classpathentry kind="lib" path="lib/lwjgl-3.0.0b/jar/lwjgl.jar">
+	<classpathentry kind="lib" path="lib/lwjgl-3.0.0b/jar/lwjgl.jar" sourcepath="lib/lwjgl-3.0.0b/src.zip">
 		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/flappy-bird/lib/lwjgl-3.0.0b/doc/javadoc.zip!/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="flappy-bird/lib/lwjgl-3.0.0b/native"/>
 		</attributes>
 	</classpathentry>
