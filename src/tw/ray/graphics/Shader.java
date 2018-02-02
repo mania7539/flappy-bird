@@ -2,14 +2,17 @@ package tw.ray.graphics;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import tw.ray.math.Vector3f;
 import tw.ray.util.ShaderUtils;
 
 public class Shader {
+    public final static Shader BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
 
     private final int ID;
-
-    public final static Shader BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
+    private Map<String, Integer> locationCacheMap = new HashMap<String, Integer>();
 
     private Shader(String vertex, String fragment) {
         ID = ShaderUtils.load(vertex, fragment);
@@ -17,10 +20,17 @@ public class Shader {
     }
 
     public int getUniform(String name) {
+        if (locationCacheMap.containsKey(name)) {
+            return locationCacheMap.get(name);
+        }
+        
         int result = glGetUniformLocation(ID, name);    // this code transfers data from GPU to CPU
         if (result == -1) {
             System.err.println(String.format("Could not find uniform variable %s!", name));
+        } else {
+            locationCacheMap.put(name, result);
         }
+        
         return result;
     }
 
