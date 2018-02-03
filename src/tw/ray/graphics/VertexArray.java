@@ -42,8 +42,9 @@ public class VertexArray {
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(vertices), GL_STATIC_DRAW);
         
-        // Attribute is like uniform, it saves every single vertex essentially
-        // Size gives 3 is for x, y, z each time it reads
+        // Attribute is like uniform, it saves every single vertex essentially.
+        // Size gives 3 is for x, y, z each time it reads, 
+        //      and the 3 will be taken into Vertex Shader (vec4 in shader will accept this) 
         glVertexAttribPointer(Shader.VERTEX_ATTRIB, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(Shader.VERTEX_ATTRIB);
         
@@ -52,7 +53,7 @@ public class VertexArray {
         glBindBuffer(GL_ARRAY_BUFFER, tbo);
         glBufferData(GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(textureCoordinates), GL_STATIC_DRAW);
         
-        // It's like uniform, it saves every single vertex essentially
+        // It's like uniform, it saves every single vertex essentially.
         // Size gives 2 is for texture x, y each time it reads
         glVertexAttribPointer(Shader.TCOORD_ATTRIB, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(Shader.TCOORD_ATTRIB);

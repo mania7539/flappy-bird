@@ -10,17 +10,21 @@ import org.lwjgl.opengl.GL;
 
 import tw.ray.graphics.Shader;
 import tw.ray.input.Input;
+import tw.ray.level.Level;
+import tw.ray.math.Matrix4f;
 import tw.ray.math.Vector3f;
 
 public class Main implements Runnable {
-
+    public final static float ratio = 9.0f / 16.0f;
     private int width = 1280;
     private int height = 720;
     private String title = "Flappy Bird";
     private boolean running = false;
     private Thread thread;
     private long window;
-
+    private Level level;
+    private Shader shader, bg;
+    
     public void start() {
         running = true;
         thread = new Thread(this, "Display");
@@ -33,7 +37,15 @@ public class Main implements Runnable {
 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glEnable(GL_DEPTH_TEST);
-        
+
+        level = new Level();
+
+        // This program will be a 16*9 window
+        Matrix4f projection_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f*ratio, 10.0f*ratio, -1.0f, 1.0f);
+        bg = Shader.BG;
+        bg.enable();
+        bg.setUniformMat4f("pr_matrix", projection_matrix);
+        bg.disable();
     }
 
     private void update() {
@@ -45,9 +57,9 @@ public class Main implements Runnable {
     }
 
     private void render() {
-        glfwSwapBuffers(window);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        level.render(bg);
+        glfwSwapBuffers(window);
     }
 
     public void run() {
@@ -67,15 +79,8 @@ public class Main implements Runnable {
         glfwShowWindow(window);
         glfwSetKeyCallback(window, new Input());
         GL.createCapabilities();
-       
+        
         init();
-
-        int vao = glGenVertexArrays();
-        glBindVertexArray(vao);
-
-        Shader shader = Shader.BASIC;
-        shader.enable();
-        shader.setUniform3f("col", new Vector3f(0.8f, 0.2f, 0.3f));
 
         while (running) {
             update();
@@ -87,6 +92,13 @@ public class Main implements Runnable {
         }
     }
 
+    public void getGLError() {
+        int i = glGetError();
+        if (i != GL_NO_ERROR) {
+            System.out.println(String.format("GL Error Code: %d", i));
+        }
+    }
+    
     public static void main(String[] args) {
         new Main().start();
     }
