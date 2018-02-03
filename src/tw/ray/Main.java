@@ -59,6 +59,7 @@ public class Main implements Runnable {
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render(bg);
+        checkGLError();
         glfwSwapBuffers(window);
     }
 
@@ -92,7 +93,7 @@ public class Main implements Runnable {
         }
     }
 
-    public void getGLError() {
+    public void checkGLError() {
         int i = glGetError();
         if (i != GL_NO_ERROR) {
             System.out.println(String.format("GL Error Code: %d", i));

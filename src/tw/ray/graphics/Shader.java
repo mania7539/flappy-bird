@@ -24,6 +24,7 @@ public class Shader {
     public final static int TCOORD_ATTRIB = 1;
     
     private final int ID;
+    private boolean enabled = false;
     private Map<String, Integer> locationCacheMap = new HashMap<String, Integer>();
 
     private Shader(String vertex, String fragment) {
@@ -47,31 +48,38 @@ public class Shader {
     }
 
     public void setUniform3f(String name, Vector3f vector) {
+        if (!enabled) enable();
         glUniform3f(getUniform(name), vector.x, vector.y, vector.z);
     }
 
     public void setUniform2f(String name, float f1, float f2) {
+        if (!enabled) enable();
         glUniform2f(getUniform(name), f1, f2);
     }
 
     public void setUniform1f(String name, float f1) {
+        if (!enabled) enable();
         glUniform1f(getUniform(name), f1);
     }
     
     public void setUniform1i(String name, int i1) {
+        if (!enabled) enable();
         glUniform1i(getUniform(name), i1);
     }
     
     public void setUniformMat4f(String name, Matrix4f matrix) {
+        if (!enabled) enable();
         glUniformMatrix4fv(getUniform(name), false, matrix.toFloatBuffer());
     }
 
     public void enable() {
         glUseProgram(ID);
+        enabled = true;
     }
 
     public void disable() {
         glUseProgram(0);
+        enabled = false;
     }
     
     public int getProgramID() {
