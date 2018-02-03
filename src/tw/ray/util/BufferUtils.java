@@ -23,7 +23,7 @@ public class BufferUtils {
     }
 
     /**
-     * "<< 2" means * 4, that's 4 bytes
+     * "<< 2" means * 4, that's 1 * 4 = 4 bytes
      * @param array
      * @return
      */

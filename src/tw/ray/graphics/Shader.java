@@ -11,7 +11,18 @@ import tw.ray.util.ShaderUtils;
 
 public class Shader {
     public final static Shader BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
-
+    public final static Shader BG = new Shader("shaders/bg.vert", "shaders/bg.frag");
+    
+    /**
+     * These are Attribute Locations.
+     * Attribute is like uniform, it saves every single vertex essentially
+     * 
+     * VERTEX_ATTRIB : Vertex Attribute
+     * TCOORD_ATTRIB : Texture Coordinates Attribute    
+     */
+    public final static int VERTEX_ATTRIB = 0;
+    public final static int TCOORD_ATTRIB = 1;
+    
     private final int ID;
     private Map<String, Integer> locationCacheMap = new HashMap<String, Integer>();
 
