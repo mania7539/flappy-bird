@@ -29,15 +29,15 @@ public class Shader {
     private boolean enabled = false;
     private Map<String, Integer> locationCacheMap = new HashMap<String, Integer>();
 
-    private Shader(String vertex, String fragment) {
-        ID = ShaderUtils.load(vertex, fragment);
+    private Shader(String vertexPath, String fragmentPath) {
+        ID = ShaderUtils.load(vertexPath, fragmentPath);
         float ratio = Main.ratio;
         Matrix4f projection_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f*ratio, 10.0f*ratio, -1.0f, 1.0f);
         
         String[] split;
-        split = vertex.split("/");
+        split = vertexPath.split("/");
         String vertexFileName = split[split.length-1];
-        split = fragment.split("/");
+        split = fragmentPath.split("/");
         String fragmentFileName = split[split.length-1];
         
         if (vertexFileName.equals("shader.vert") && fragmentFileName.equals("shader.frag")) {
