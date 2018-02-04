@@ -65,8 +65,8 @@ public class Matrix4f {
         
         // Take notes:  row , col: since OpenGL is a column major ordering system
         result.elements[0 + 3 * 4] = vector.x;
-        result.elements[1 + 3 * 4] = vector.x;
-        result.elements[2 + 3 * 4] = vector.x;
+        result.elements[1 + 3 * 4] = vector.y;
+        result.elements[2 + 3 * 4] = vector.z;
 
         return result;
     }
