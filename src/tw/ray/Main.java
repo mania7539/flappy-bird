@@ -50,15 +50,11 @@ public class Main implements Runnable {
     private void update() {
         glfwPollEvents();   // deal with key events
         level.update();
-        
-        if (Input.keys[GLFW_KEY_SPACE]) {
-            System.out.println("FLAP!");
-        }
     }
 
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        level.render(bg);
+        level.render();
         checkGLError();
         glfwSwapBuffers(window);
     }

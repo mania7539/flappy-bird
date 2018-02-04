@@ -14,6 +14,7 @@ import tw.ray.util.ShaderUtils;
 public class Shader {
     public final static Shader BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
     public final static Shader BG = new Shader("shaders/bg.vert", "shaders/bg.frag");
+    public final static Shader BIRD = new Shader("shaders/bird.vert", "shaders/bird.frag");
     
     /**
      * These are Attribute Locations.
@@ -43,6 +44,12 @@ public class Shader {
         if (vertexFileName.equals("shader.vert") && fragmentFileName.equals("shader.frag")) {
             
         } else if (vertexFileName.equals("bg.vert") && fragmentFileName.equals("bg.frag")) {
+            enable();
+            setUniformMat4f("pr_matrix", projection_matrix);
+            glActiveTexture(GL_TEXTURE1);
+            setUniform1i("tex", Texture.getTextureIndex(GL_TEXTURE1));
+            disable();
+        } else if (vertexFileName.equals("bird.vert") && fragmentFileName.equals("bird.frag")) {
             enable();
             setUniformMat4f("pr_matrix", projection_matrix);
             glActiveTexture(GL_TEXTURE1);

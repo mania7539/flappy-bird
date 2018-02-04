@@ -9,7 +9,8 @@ import tw.ray.math.Vector3f;
 
 public class Level {
     private final static float ratio = Main.ratio;
-
+    private Bird bird;
+    
     private VertexArray background;
     private Texture bgTexture;
     
@@ -40,6 +41,7 @@ public class Level {
         
         background = new VertexArray(vertices, indices, tcs);
         bgTexture = new Texture("res/bg.jpeg");
+        bird = new Bird();
         
     }
     
@@ -47,19 +49,23 @@ public class Level {
         xScroll--;
         
         if (-xScroll % 300 == 0) map++;
+        
+        bird.update();
     }
     
-    public void render(Shader shader) {
+    public void render() {
         bgTexture.bind();
-        shader.enable();
+        Shader.BG.enable();
         background.bind();
         
         for (int i=map; i<map + 4; i++) {
-            shader.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(i * 10 + xScroll * 0.03f, 0.0f, 0.0f)));            
+            Shader.BG.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(i * 10 + xScroll * 0.03f, 0.0f, 0.0f)));            
             background.draw();
         }
         
-        shader.disable();
+        Shader.BG.disable();
         bgTexture.unbind();
+        
+        bird.render();
     }
 }
