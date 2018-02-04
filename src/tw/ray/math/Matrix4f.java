@@ -44,7 +44,8 @@ public class Matrix4f {
             for (int y = 0; y < 4; y++) {
                 float sum = 0;
                 for (int e = 0; e < 4; e++) {
-                    sum += this.elements[x * 4 + e] * matrix.elements[e * 4 + y];
+                    // Note: OpenGL takes column major ordering, so *4 part will be column, and *1 part will be row
+                    sum += this.elements[y + e * 4] * matrix.elements[e + x * 4];
                 }
                 result.elements[x * 4 + y] = sum;
             }
@@ -87,8 +88,8 @@ public class Matrix4f {
         result.elements[0 + 0 * 4] = cos;
         result.elements[1 + 0 * 4] = sin;
 
-        result.elements[2 + 0 * 4] = -sin;
-        result.elements[3 + 0 * 4] = cos;
+        result.elements[0 + 1 * 4] = -sin;
+        result.elements[1 + 1 * 4] = cos;
 
         return result;
     }
