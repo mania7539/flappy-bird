@@ -25,7 +25,7 @@ public class Bird {
     private float delta = 0.0f;
     
     public Bird() {
-     // for x, y, z each time it reads
+        // for x, y, z each time it reads
         float[] vertices = new float[] {
                 -SIZE / ratio, -SIZE / ratio,  0.1f,
                 -SIZE / ratio,  SIZE / ratio,  0.1f,

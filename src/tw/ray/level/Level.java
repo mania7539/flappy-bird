@@ -10,10 +10,15 @@ import tw.ray.math.Vector3f;
 public class Level {
     private final static float ratio = Main.ratio;
     private Bird bird;
+    /**
+     * Pipes: 5 on top, and 5 on bottom
+     */
+    private Pipe[] pipes = new Pipe[5 * 2];
     
     private VertexArray background;
     private Texture bgTexture;
     
+    private int index = 0;
     private int xScroll = 0;
     private int map = 0;
     
@@ -42,7 +47,21 @@ public class Level {
         background = new VertexArray(vertices, indices, tcs);
         bgTexture = new Texture("res/bg.jpeg");
         bird = new Bird();
-        
+        createPipes();
+    }
+    
+    private void createPipes() {
+        Pipe.create();
+        for (int i=0; i<pipes.length; i+=2) {
+            // top pipe & bottom pipe
+            pipes[i] = new Pipe(index * 3.0f, 4.0f);    
+            pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 11.0f); 
+            index += 2;
+        }
+    }
+    
+    private void updatePipes() {
+//        pipes[]
     }
     
     public void update() {
@@ -51,6 +70,22 @@ public class Level {
         if (-xScroll % 300 == 0) map++;
         
         bird.update();
+    }
+    
+    private void renderPipes() {
+        Shader.PIPE.enable();
+        Shader.PIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(xScroll * 0.03f, 0.0f, 0.0f)));
+        
+        Pipe.getTexture().bind();
+        Pipe.getMesh().bind();
+        
+        for (int i=0; i<5*2; i++) {
+            Shader.PIPE.setUniformMat4f("ml_matrix", pipes[i].getModelMatrix());
+            Pipe.getMesh().draw();
+        }
+        
+        Pipe.getMesh().unbind();
+        Pipe.getTexture().unbind();
     }
     
     public void render() {
@@ -66,6 +101,8 @@ public class Level {
         Shader.BG.disable();
         bgTexture.unbind();
         
+        renderPipes();
         bird.render();
+        
     }
 }
