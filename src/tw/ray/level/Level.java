@@ -2,12 +2,15 @@ package tw.ray.level;
 
 import tw.ray.Main;
 import tw.ray.graphics.Shader;
+import tw.ray.graphics.Texture;
 import tw.ray.graphics.VertexArray;
 
 public class Level {
-    private VertexArray background;
     private final static float ratio = Main.ratio;
-            
+
+    private VertexArray background;
+    private Texture bgTexture;
+    
     public Level() {
         // for x, y, z each time it reads
         float[] vertices = new float[] {
@@ -31,11 +34,15 @@ public class Level {
         };
         
         background = new VertexArray(vertices, indices, tcs);
+        bgTexture = new Texture("res/bg.jpeg");
+        
     }
     
     public void render(Shader shader) {
+        bgTexture.bind();
         shader.enable();
         background.render();
         shader.disable();
+        bgTexture.unbind();
     }
 }
