@@ -13,5 +13,9 @@ public class Input extends GLFWKeyCallback {
         keys[key] = action != GLFW.GLFW_RELEASE;
         
     }
+    
+    public static boolean isKeyDown(int keycode) {
+        return keys[keycode];
+    }
 
 }

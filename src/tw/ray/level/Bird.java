@@ -18,6 +18,10 @@ public class Bird {
     
     private Vector3f position = new Vector3f();
     private float rotation;
+    
+    /**
+     * It's the value of Velocity
+     */
     private float delta = 0.0f;
     
     public Bird() {
@@ -47,25 +51,18 @@ public class Bird {
     }
     
     public void update() {
-        if (Input.keys[GLFW_KEY_UP]) {
-            System.out.println("FLAP!");
-            position.y += 0.1f;
+        position.y -= delta;
+        if (Input.isKeyDown(GLFW_KEY_SPACE)) {
+            delta = -0.15f;
+        } else {
+            // How we manage velocity here is adding acceleration
+            delta += 0.01f;
         }
         
-        if (Input.keys[GLFW_KEY_DOWN]) {
-            System.out.println("FLAP!");
-            position.y -= 0.1f;
-        }
-
-        if (Input.keys[GLFW_KEY_LEFT]) {
-            System.out.println("FLAP!");
-            position.x -= 0.1f;
-        }
+    }
+    
+    public void fall() {
         
-        if (Input.keys[GLFW_KEY_RIGHT]) {
-            System.out.println("FLAP!");
-            position.x += 0.1f;
-        }
     }
     
     public void render() {
