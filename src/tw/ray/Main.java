@@ -41,15 +41,9 @@ public class Main implements Runnable {
         glEnable(GL_DEPTH_TEST);
         
         level = new Level();
-        glActiveTexture(GL_TEXTURE1);
 
         // This program will be a 16*9 window
-        Matrix4f projection_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f*ratio, 10.0f*ratio, -1.0f, 1.0f);
         bg = Shader.BG;
-        bg.enable();
-        bg.setUniformMat4f("pr_matrix", projection_matrix);
-        bg.setUniform1i("tex", Texture.getTextureIndex(GL_TEXTURE1));
-        bg.disable();
         
     }
 

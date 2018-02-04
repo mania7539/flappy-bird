@@ -1,10 +1,12 @@
 package tw.ray.graphics;
 
+import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import tw.ray.Main;
 import tw.ray.math.Matrix4f;
 import tw.ray.math.Vector3f;
 import tw.ray.util.ShaderUtils;
@@ -29,6 +31,24 @@ public class Shader {
 
     private Shader(String vertex, String fragment) {
         ID = ShaderUtils.load(vertex, fragment);
+        float ratio = Main.ratio;
+        Matrix4f projection_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f*ratio, 10.0f*ratio, -1.0f, 1.0f);
+        
+        String[] split;
+        split = vertex.split("/");
+        String vertexFileName = split[split.length-1];
+        split = fragment.split("/");
+        String fragmentFileName = split[split.length-1];
+        
+        if (vertexFileName.equals("shader.vert") && fragmentFileName.equals("shader.frag")) {
+            
+        } else if (vertexFileName.equals("bg.vert") && fragmentFileName.equals("bg.frag")) {
+            enable();
+            setUniformMat4f("pr_matrix", projection_matrix);
+            glActiveTexture(GL_TEXTURE1);
+            setUniform1i("tex", Texture.getTextureIndex(GL_TEXTURE1));
+            disable();
+        }
 
     }
 
