@@ -1,5 +1,7 @@
 package tw.ray.level;
 
+import java.util.Random;
+
 import tw.ray.Main;
 import tw.ray.graphics.Shader;
 import tw.ray.graphics.Texture;
@@ -14,6 +16,7 @@ public class Level {
      * Pipes: 5 on top, and 5 on bottom
      */
     private Pipe[] pipes = new Pipe[5 * 2];
+    private Random random = new Random();
     
     private VertexArray background;
     private Texture bgTexture;
@@ -54,7 +57,7 @@ public class Level {
         Pipe.create();
         for (int i=0; i<pipes.length; i+=2) {
             // top pipe & bottom pipe
-            pipes[i] = new Pipe(index * 3.0f, 4.0f);    
+            pipes[i] = new Pipe(index * 3.0f, random.nextFloat() * 4.0f);    
             pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 11.0f); 
             index += 2;
         }
