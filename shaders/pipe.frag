@@ -10,9 +10,11 @@ in DATA
 } fs_in;
 
 uniform sampler2D tex;
+uniform int top;
 
 void main()
 {
+    if (top == 1) fs_in.tc.y = 1.0 - fs_in.tc.y;
     color = texture(tex, fs_in.tc);
     if (color.w < 1.0) discard;
 }

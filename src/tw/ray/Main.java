@@ -17,6 +17,8 @@ import tw.ray.math.Matrix4f;
 import tw.ray.math.Vector3f;
 
 public class Main implements Runnable {
+
+    // This program will be a 16*9 window
     public final static float ratio = 9.0f / 16.0f;
     private int width = 1280;
     private int height = 720;
@@ -25,7 +27,6 @@ public class Main implements Runnable {
     private Thread thread;
     private long window;
     private Level level;
-    private Shader shader, bg;
     
     public void start() {
         running = true;
@@ -41,9 +42,6 @@ public class Main implements Runnable {
         glEnable(GL_DEPTH_TEST);
         
         level = new Level();
-
-        // This program will be a 16*9 window
-        bg = Shader.BG;
         
     }
 
@@ -60,7 +58,7 @@ public class Main implements Runnable {
     }
 
     public void run() {
-        if (glfwInit() != GL_TRUE) {
+        if (!glfwInit()) {
             return;
         }
 
@@ -106,7 +104,7 @@ public class Main implements Runnable {
                 frames = 0;
             }
             
-            if (glfwWindowShouldClose(window) == GL_TRUE) {
+            if (glfwWindowShouldClose(window)) {
                 running = false;
             }
         }

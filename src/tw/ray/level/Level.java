@@ -56,7 +56,7 @@ public class Level {
     private void createPipes() {
         Pipe.create();
         for (int i=0; i<pipes.length; i+=2) {
-            // top pipe & bottom pipe
+            // top pipe & bottom pipe (0,0 is at the bottom left corner in OpenGL)
             pipes[i] = new Pipe(index * 3.0f, random.nextFloat() * 4.0f);    
             pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 11.0f); 
             index += 2;
@@ -82,8 +82,9 @@ public class Level {
         Pipe.getTexture().bind();
         Pipe.getMesh().bind();
         
-        for (int i=0; i<5*2; i++) {
+        for (int i=0; i<pipes.length; i++) {
             Shader.PIPE.setUniformMat4f("ml_matrix", pipes[i].getModelMatrix());
+            Shader.PIPE.setUniform1i("top", (i % 2 == 0) ? 1 : 0);
             Pipe.getMesh().draw();
         }
         

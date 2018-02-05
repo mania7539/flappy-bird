@@ -12,10 +12,10 @@ import tw.ray.math.Vector3f;
 import tw.ray.util.ShaderUtils;
 
 public class Shader {
-    public final static Shader BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
-    public final static Shader BG = new Shader("shaders/bg.vert", "shaders/bg.frag");
-    public final static Shader BIRD = new Shader("shaders/bird.vert", "shaders/bird.frag");
-    public final static Shader PIPE = new Shader("shaders/pipe.vert", "shaders/pipe.frag");
+    public static Shader BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
+    public static Shader BG = new Shader("shaders/bg.vert", "shaders/bg.frag");
+    public static Shader BIRD = new Shader("shaders/bird.vert", "shaders/bird.frag");
+    public static Shader PIPE = new Shader("shaders/pipe.vert", "shaders/pipe.frag");
     
     /**
      * These are Attribute Locations.
@@ -63,6 +63,13 @@ public class Shader {
         disable();
     }
 
+    public static void loadAll() {
+        BASIC = new Shader("shaders/shader.vert", "shaders/shader.frag");
+        BG = new Shader("shaders/bg.vert", "shaders/bg.frag");
+        BIRD = new Shader("shaders/bird.vert", "shaders/bird.frag");
+        PIPE = new Shader("shaders/pipe.vert", "shaders/pipe.frag");
+    }
+    
     public int getUniform(String name) {
         if (locationCacheMap.containsKey(name)) {
             return locationCacheMap.get(name);

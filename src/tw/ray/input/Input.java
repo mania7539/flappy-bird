@@ -7,7 +7,7 @@ public class Input extends GLFWKeyCallback {
 
     public static boolean[] keys = new boolean[65536];
     
-    @Override
+    
     public void invoke(long window, int key, int scancode, int action, int mods) {
         // There are 3 actions: GLFW.GLFW_REPEAT, GLFW.GLFW_PRESS, GLFW.GLFW_RELEASE
         keys[key] = action != GLFW.GLFW_RELEASE;
