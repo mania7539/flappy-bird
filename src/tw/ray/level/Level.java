@@ -1,7 +1,5 @@
 package tw.ray.level;
 
-import java.util.Random;
-
 import tw.ray.Main;
 import tw.ray.graphics.Shader;
 import tw.ray.graphics.Texture;
@@ -11,18 +9,9 @@ import tw.ray.math.Vector3f;
 
 public class Level {
     private final static float ratio = Main.ratio;
-    private Bird bird;
-    /**
-     * Pipes: 5 on top, and 5 on bottom
-     */
-    private Pipe[] pipes = new Pipe[5 * 2];
-    private Random random = new Random();
     
     private VertexArray background;
     private Texture bgTexture;
-    
-    private int index = 0;
-    private int xScroll = 0;
     private int map = 0;
     
     public Level() {
@@ -49,53 +38,20 @@ public class Level {
         
         background = new VertexArray(vertices, indices, tcs);
         bgTexture = new Texture("res/bg.jpeg");
-        bird = new Bird();
-        createPipes();
-    }
-    
-    private void createPipes() {
-        Pipe.create();
-        for (int i=0; i<pipes.length; i+=2) {
-            // top pipe & bottom pipe (0,0 is at the bottom left corner in OpenGL)
-            pipes[i] = new Pipe(index * 3.0f, random.nextFloat() * 4.0f);    
-            pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 11.0f); 
-            index += 2;
-        }
     }
     
     private void updatePipes() {
 //        pipes[]
     }
     
-    public void update() {
-        xScroll--;
-        
+    public void update(int xScroll) {
         if (-xScroll % 300 == 0) map++;
-        
-        bird.update();
     }
     
-    private void renderPipes() {
-        Shader.PIPE.enable();
-        Shader.PIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(xScroll * 0.03f, 0.0f, 0.0f)));
-        
-        Pipe.getTexture().bind();
-        Pipe.getMesh().bind();
-        
-        for (int i=0; i<pipes.length; i++) {
-            Shader.PIPE.setUniformMat4f("ml_matrix", pipes[i].getModelMatrix());
-            Shader.PIPE.setUniform1i("top", (i % 2 == 0) ? 1 : 0);
-            Pipe.getMesh().draw();
-        }
-        
-        Pipe.getMesh().unbind();
-        Pipe.getTexture().unbind();
-    }
-    
-    public void render() {
+    public void render(int xScroll) {
+        background.bind();
         bgTexture.bind();
         Shader.BG.enable();
-        background.bind();
         
         for (int i=map; i<map + 4; i++) {
             Shader.BG.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(i * 10 + xScroll * 0.03f, 0.0f, 0.0f)));            
@@ -104,9 +60,5 @@ public class Level {
         
         Shader.BG.disable();
         bgTexture.unbind();
-        
-        renderPipes();
-        bird.render();
-        
     }
 }

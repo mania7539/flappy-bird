@@ -6,13 +6,17 @@ import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import java.util.Random;
+
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import tw.ray.graphics.Shader;
 import tw.ray.graphics.Texture;
 import tw.ray.input.Input;
+import tw.ray.level.Bird;
 import tw.ray.level.Level;
+import tw.ray.level.Pipe;
 import tw.ray.math.Matrix4f;
 import tw.ray.math.Vector3f;
 
@@ -26,7 +30,43 @@ public class Main implements Runnable {
     private boolean running = false;
     private Thread thread;
     private long window;
+    
+    private int xScroll = 0;
     private Level level;
+    private Bird bird;
+    /**
+     * Pipes: 5 on top, and 5 on bottom
+     */
+    private Pipe[] pipes = new Pipe[5 * 2];
+    private int index = 0;
+    private Random random = new Random();
+    
+    private void createPipes() {
+        Pipe.create();
+        for (int i=0; i<pipes.length; i+=2) {
+            // top pipe & bottom pipe (0,0 is at the bottom left corner in OpenGL)
+            pipes[i] = new Pipe(index * 3.0f, random.nextFloat() * 4.0f);    
+            pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 11.0f); 
+            index += 2;
+        }
+    }
+    
+    private void renderPipes() {
+        Shader.PIPE.enable();
+        Shader.PIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(xScroll * 0.03f, 0.0f, 0.0f)));
+        
+        Pipe.getTexture().bind();
+        Pipe.getMesh().bind();
+        
+        for (int i=0; i<pipes.length; i++) {
+            Shader.PIPE.setUniformMat4f("ml_matrix", pipes[i].getModelMatrix());
+            Shader.PIPE.setUniform1i("top", (i % 2 == 0) ? 1 : 0);
+            Pipe.getMesh().draw();
+        }
+        
+        Pipe.getMesh().unbind();
+        Pipe.getTexture().unbind();
+    }
     
     public void start() {
         running = true;
@@ -42,17 +82,27 @@ public class Main implements Runnable {
         glEnable(GL_DEPTH_TEST);
         
         level = new Level();
+        bird = new Bird();
+        createPipes();
         
     }
 
     private void update() {
         glfwPollEvents();   // deal with key events
-        level.update();
+        
+        xScroll--;
+        
+        level.update(xScroll);
+        bird.update();
     }
 
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        level.render();
+        level.render(xScroll);
+
+        renderPipes();
+        bird.render();
+        
         checkGLError();
         glfwSwapBuffers(window);
     }
