@@ -26,5 +26,13 @@
 	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-stb/lwjgl-stb-natives-macos.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-stb/lwjgl-stb-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-stb/lwjgl-stb.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-assimp/lwjgl-assimp-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-assimp/lwjgl-assimp-natives-macos.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-assimp/lwjgl-assimp-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-3.1.6/lwjgl-assimp/lwjgl-assimp.jar" sourcepath="lib/lwjgl-3.1.6/lwjgl-assimp/lwjgl-assimp-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/flappy-bird/lib/lwjgl-3.1.6/lwjgl-assimp/lwjgl-assimp-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
